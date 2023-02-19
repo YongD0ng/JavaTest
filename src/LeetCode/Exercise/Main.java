@@ -4,25 +4,23 @@ package LeetCode.Exercise;
 import java.util.Arrays;
 
 public class Main {
+    private static final int ARRAY_MAX_LENGTH = 1;
+
     public static void main(String[] args) {
-        int[] nums = {5, 1, 1, 2, 0, 0};
-//        bubbleSort(nums);
-//        selectSort(nums);
-//        insertSort(nums);
-//        shellSort(nums);
-//        quickSort(nums, 0, nums.length - 1);
-//        mergeSort(nums, 0, nums.length - 1, new int[nums.length]);
-        heapSort(nums);
-        System.out.println(Arrays.toString(nums));
+        int[] arr = {5, 1, 1, 2, 0, 0};
+//        bubbleSort(arr);
+//        selectSort(arr);
+//        insertSort(arr);
+//        shellSort(arr);
+//        quickSort(arr, 0, arr.length - 1);
+//        mergeSort(arr, 0, arr.length - 1, new int[arr.length]);
+        heapSort(arr);
+
+        System.out.println(Arrays.toString(arr));
     }
 
-    /**
-     * 冒泡排序 时间 O(n^2) 空间 O(1) 稳定
-     *
-     * @param arr
-     */
     public static void bubbleSort(int[] arr) {
-        if (arr == null || arr.length <= 1) {
+        if (arr == null || arr.length <= ARRAY_MAX_LENGTH) {
             return;
         }
         int temp = 0;
@@ -43,21 +41,15 @@ public class Main {
         }
     }
 
-    /**
-     * 选择排序  时间 O(n^2) 空间 O(1) 不稳定
-     *
-     * @param arr
-     */
     public static void selectSort(int[] arr) {
-        if (arr == null || arr.length <= 1) {
+        if (arr == null || arr.length <= ARRAY_MAX_LENGTH) {
             return;
         }
-        int temp = 0;
-        int minIndex = 0;
+        int minIndex = 0, temp = 0;
         for (int i = 0; i < arr.length - 1; i++) {
             minIndex = i;
             for (int j = i + 1; j < arr.length; j++) {
-                if (arr[minIndex] > arr[j]) {
+                if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
             }
@@ -69,13 +61,8 @@ public class Main {
         }
     }
 
-    /**
-     * 插入排序 时间 O(n^2) 空间 O(1) 稳定
-     *
-     * @param arr
-     */
     public static void insertSort(int[] arr) {
-        if (arr == null || arr.length <= 1) {
+        if (arr == null || arr.length <= ARRAY_MAX_LENGTH) {
             return;
         }
         int insertIndex = 0, insertVal = 0;
@@ -92,13 +79,8 @@ public class Main {
         }
     }
 
-    /**
-     * 希尔排序 时间 O(nlogn) 空间 O(1) 非稳定
-     *
-     * @param arr
-     */
     public static void shellSort(int[] arr) {
-        if (arr == null || arr.length <= 1) {
+        if (arr == null || arr.length <= ARRAY_MAX_LENGTH) {
             return;
         }
         int insertIndex = 0, insertVal = 0;
@@ -117,13 +99,6 @@ public class Main {
         }
     }
 
-    /**
-     * 快速排序 时间 O(nlogn) 空间 O(logn) 不稳定
-     *
-     * @param arr
-     * @param left
-     * @param right
-     */
     public static void quickSort(int[] arr, int left, int right) {
         int l = left, r = right, pivot = arr[(left + right) / 2], temp = 0;
         while (l < r) {
@@ -170,7 +145,7 @@ public class Main {
     public static void merge(int[] arr, int left, int mid, int right, int[] temp) {
         int l = left, r = mid + 1, t = 0;
         while (l <= mid && r <= right) {
-            if (arr[l] < arr[r]) {
+            if (arr[l] <= arr[r]) {
                 temp[t++] = arr[l++];
             } else {
                 temp[t++] = arr[r++];
@@ -189,11 +164,15 @@ public class Main {
         }
     }
 
-    public static void heapSort(int[] arr) {
-        int temp = 0;
+    private static void heapSort(int[] arr) {
+        if (arr == null || arr.length <= ARRAY_MAX_LENGTH) {
+            return;
+        }
+
         for (int i = arr.length / 2; i >= 0; i--) {
             adjustHeap(arr, i, arr.length);
         }
+        int temp = 0;
         for (int i = arr.length - 1; i > 0; i--) {
             temp = arr[0];
             arr[0] = arr[i];
@@ -202,10 +181,10 @@ public class Main {
         }
     }
 
-    public static void adjustHeap(int[] arr, int i, int length) {
+    private static void adjustHeap(int[] arr, int i, int length) {
         int temp = arr[i];
         for (int j = i * 2 + 1; j < length; j = j * 2 + 1) {
-            if (j + 1 < length && arr[j] < arr[j + 1]) {
+            if (j + 1 < length && arr[j + 1] > arr[j]) {
                 j++;
             }
             if (arr[j] > temp) {
